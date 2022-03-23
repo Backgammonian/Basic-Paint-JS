@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        Basic Paint JS
+    </title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="classes.js"></script>
+    <script type="text/javascript" src="canvas.js"></script>
+    <script type="text/javascript" src="scripts.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+    <div class="center">
+        <div class="horizontal">
+            <div class="tools">
+                <div id="btn1" class="button" onclick="changeTool('line', 'btn1')">Bresenham's Line</div>
+                <div id="btn2" class="button" onclick="changeTool('line_dda', 'btn2')">DDA Line</div>
+                <div id="btn3" class="button" onclick="changeTool('flood_fill', 'btn3')">Flood Fill</div>
+                <div id="btn4" class="button" onclick="changeTool('flood_fill_rows', 'btn4')">Flood Fill in Rows</div>
+                <div id="btn5" class="button" onclick="changeTool('circle', 'btn5')">Circle</div>
+                <div id="btn6" class="button" onclick="changeTool('fill_circle', 'btn6')">Fill Circle</div>
+                <div id="btn7" class="button" onclick="changeTool('ellipse', 'btn7')">Ellipse</div>
+                <div id="btn8" class="button" onclick="changeTool('ellipse_another', 'btn8')">Ellipse (another)</div>
+                <div id="btn9" class="button" onclick="changeTool('fill_ellipse', 'btn9')">Fill Ellipse</div>
+                <div id="btn10" class="button" onclick="changeTool('pencil', 'btn10')">Pencil</div>
+                <div id="btn11" class="button" onclick="changeTool('brush', 'btn11')">Brush
+                    <input type="number" id="brush-radius" value="10" min="1" max="200" oninput="changeBrushRadius(this.value);">
+                </div>
+                <div id="btn12" class="button" onclick="changeTool('spray', 'btn12')">Spray
+                    <input type="number" id="spray-radius" value="10" min="1" max="200" oninput="changeSprayRadius(this.value);">
+                </div>
+            </div>
+
+            <div class="canvas-wrapper">
+                <canvas id="canvas" width="970" height="562" class="my-canvas">
+                    Alt canvas
+                </canvas>
+            </div>
+        </div>
+
+        <div class="horizontal">
+            <div class="current-color-wrapper">
+                <div id="current-color"></div>
+            </div>
+
+            <div class="palette">
+                <div class="color black" onclick="changeColor('#000000')"></div>
+                <div class="color gray" onclick="changeColor('#787878')"></div>
+                <div class="color brown" onclick="changeColor('#790300')"></div>
+                <div class="color green" onclick="changeColor('#007902')"></div>
+                <div class="color cyan" onclick="changeColor('#007778')"></div>
+                <div class="color blue" onclick="changeColor('#286FFE')"></div>
+                <div class="color violet" onclick="changeColor('#7B0077')"></div>
+                <div class="color dark-blue" onclick="changeColor('#0A0078')"></div>
+                <div class="color light-green" onclick="changeColor('#767A38')"></div>
+                <div class="color dark-violet" onclick="changeColor('#003637')"></div>
+
+                <div class="color white" onclick="changeColor('#ffffff')"></div>
+                <div class="color light-gray" onclick="changeColor('#BBBBBB')"></div>
+                <div class="color red" onclick="changeColor('#ff0e00')"></div>
+                <div class="color yellow" onclick="changeColor('#FAFF08')"></div>
+                <div class="color super-green" onclick="changeColor('#00FF0B')"></div>
+                <div class="color light-blue" onclick="changeColor('#00FEFF')"></div>
+                <div class="color true-blue" onclick="changeColor('#3400FE')"></div>
+                <div class="color salad" onclick="changeColor('#00FF7B')"></div>
+                <div class="color yellow-gray" onclick="changeColor('#FBFF7A')"></div>
+                <div class="color pink" onclick="changeColor('#FF0677')"></div>
+            </div>
+
+            <div class="color-converter">
+                <select onchange="selectColor.call(this)">
+                    <option value="RGB">RGB</option>
+                    <option value="HSV">HSV</option>
+                    <option value="CMY">CMY</option>
+                    <option value="CMYK">CMYK</option>
+                </select>
+
+                <div class="color-parameter">
+                    <div id="name-of-param1" class="name-of-parameter">R</div>
+                    <input type="text" id="param1" class="value-of-parameter" value="100">
+                    <div id="restriction1">[0; 255]</div>
+                </div>
+
+                <div class="color-parameter">
+                    <div id="name-of-param2" class="name-of-parameter">G</div>
+                    <input type="text" id="param2" class="value-of-parameter" value="20">
+                    <div id="restriction2">[0; 255]</div>
+                </div>
+
+                <div class="color-parameter">
+                    <div id="name-of-param3" class="name-of-parameter">B</div>
+                    <input type="text" id="param3" class="value-of-parameter" value="60">
+                    <div id="restriction3">[0; 255]</div>
+                </div>
+
+                <div class="color-parameter">
+                    <div id="name-of-param4" class="name-of-parameter"></div>
+                    <input type="text" id="param4" class="value-of-parameter">
+                    <div id="restriction4"></div>
+                </div>
+
+                <div class="color-buttons">
+                    <input type="button" id="create-color" value="Create color" onclick="makeColor()">
+                    <div id="palette-color" class="color" onclick="changeColorFromPalette()"></div>
+                </div>
+            </div>
+
+            <div class="options">
+                <div class="options-button" onclick="canvas.clearCanvas();">Clear canvas</div>
+            </div>
+        </div>
+
+        <div class="affine-label">
+            Affine Transformations
+        </div>
+        <div class="affine">
+            <div class="affine-parameter">
+                Rotation (degrees)
+                <input id="rotation" type="text" value="0" class="affine-parameter-input">
+            </div>
+            <div class="affine-parameter">
+                Stretch (X, Y)
+                <input id="stretchx" type="text" value="1" class="affine-parameter-input">
+                <input id="stretchy" type="text" value="1" class="affine-parameter-input">
+            </div>
+            <div class="affine-parameter">
+                Offset (X, Y)
+                <input id="offsetx" type="text" value="0" class="affine-parameter-input">
+                <input id="offsety" type="text" value="0" class="affine-parameter-input">
+            </div>
+            <div class="affine-button" onclick="affineTransform()">Apply</div>
+        </div>
+
+        <div class="affine-label" style="width: 130px">
+            Canvas Resizing
+        </div>
+        <div class="affine" style="width: 524px">
+            <div class="affine-parameter">
+                Width
+                <input id="width" type="text" class="affine-parameter-input">
+            </div>
+            <div class="affine-parameter">
+                Height
+                <input id="height" type="text" class="affine-parameter-input">
+            </div>
+            <div class="affine-button" onclick="resizeCanvas()">Apply</div>
+        </div>
+    </div>
+</body>
+</html>
