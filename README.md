@@ -1,10 +1,10 @@
 # Basic-Paint-JS
-Really basic paint app that can run in browser.\
+Basic paint app for browser.\
 Written in pure JavaScript.\
-This app was created during Computer Graphics course.
-## Features
-* Simple instruments to work with (line, circle, ellipse, etc)
-* Affine transformations of the canvas (rotation, stretch, offset)
-* Ability to work with different color models (RGB, HSV, CMY, CMYK)
-## Screenshot
+This app was created during Computer Graphics course as the course work.
+## Features:
+* Simple drawing instruments - line, circle, ellipse, etc.
+* Canvas affine transformations - rotation, stretch, offset
+* Ability to work with different color models - RGB, HSV, CMY, CMYK
+## Demonstration:
 ![screenshot](screenshot.jpg)
